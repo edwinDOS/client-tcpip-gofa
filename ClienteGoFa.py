@@ -22,13 +22,16 @@ def dibujar(mask,color):
       cv2.circle(frame,(x,y),7,(0,255,0),-1)
       cv2.putText(frame,'{},{}'.format(x,y),(x+10,y), font, 0.75,(0,255,0),1,cv2.LINE_AA)
       cv2.drawContours(frame, [nuevoContorno], 0, color, 3)
-      x=(x+100)
-      y=(y+100)
-      coordXY = str(x)+str(y)
+      coorX = ''
+      coorY = ''
+      if x < 100: coorX = '0'+str(x)
+      else: coorX = str(x)
+      if y < 100: coorY = '0'+str(y)
+      else: coorY = str(y)
+      coordXY = coorX+coorY
       mi_socket.sendall(coordXY.encode())
-      time.sleep(0.2)
-      print(x)
-      print(y)
+      time.sleep(1)
+      print(coordXY)
 
 cap = cv2.VideoCapture(0)
 azulBajo = np.array([100,100,20],np.uint8)
@@ -57,6 +60,7 @@ while True:
         dibujar(maskRed,(0,0,255))
         cv2.imshow('frame',frame)
         if cv2.waitKey(1) & 0xFF == ord('s'):
+            mi_socket.close()
             break
 cap.release()
 cv2.destroyAllWindows()
