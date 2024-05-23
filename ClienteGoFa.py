@@ -31,7 +31,7 @@ def dibujar(mask,color):
       coordXY = coorX+coorY
       mi_socket.sendall(coordXY.encode())
       time.sleep(1)
-      print(coordXY)
+      print("Coordenadas: " + coordXY)
 
 cap = cv2.VideoCapture(0)
 azulBajo = np.array([100,100,20],np.uint8)
